@@ -1,0 +1,21 @@
+grau(V,[],0).
+grau(V,[(V,V)|T],R):- grau(V,T,S), R is 2 + S.
+grau(V,[(V,_)|T],R):- grau(V,T,S), R is 1 + S.
+grau(V,[(_,V)|T],R):- grau(V,T,S), R is 1 + S.
+grau(V,[H|T],R):- grau(V,T,S), R is 0 + S.
+
+:-grau(a,[(a,b),(b,c),(a,a)],R), write(R), nl.
+
+
+emissor(V,[],0).
+emissor(V,[(V,_)|T],R):- emissor(V,T,S), R is 1 + S.
+emissor(V,[H|T],R):- emissor(V,T,S), R is 0 + S.
+
+:-emissor(c,[(a,b),(b,c),(a,c)],R), write(R), nl.
+
+
+recep(V,[],0).
+recep(V,[(_,V)|T],R):- recep(V,T,S), R is 1 + S.
+recep(V,[H|T],R):- recep(V,T,S), R is 0 + S.
+
+:-recep(c,[(a,b),(b,c),(a,c)],R), write(R), nl.
