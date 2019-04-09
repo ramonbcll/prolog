@@ -1,0 +1,25 @@
+total(_, [], 0).
+total(X, [(X,_)|T], C):- total(X,T,C1), C is C1 + 1.
+total(X, [(_,X)|T], C):- total(X,T,C1), C is C1 + 1.
+total(X, [_|T], C):- total(X,T,C1), C is C1 + 0.
+
+first(_, [], 0).
+first(X, [(X,_)|T], C):- first(X,T,C1), C is C1 + 1.
+first(X, [_|T], C):- first(X,T,C1), C is C1 + 0.
+
+sec(_, [], 0).
+sec(X, [(_,X)|T], C):- sec(X,T,C1), C is C1 + 1.
+sec(X, [_|T], C):- sec(X,T,C1), C is C1 + 0.
+
+
+contagem(_, [], 0, 0).
+contagem(X, [(_,X)|T], F, S):- contagem(X, T, F, S1), S is S1 + 1.
+contagem(X, [(X,_)|T], F, S):- contagem(X, T, F1, S), F is F1 + 1.
+contagem(X, [_|T], F, S):- contagem(X, T, F, S).
+
+
+sumidouro(X, T):- contagem(X, T, F, S), F = 0, S > 0.
+
+fonte(X, T):- contagem(X, T, F, S), F > 0, S = 0.
+
+:-fonte(b,[(a,b),(b,c),(a,c)]).
