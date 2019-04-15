@@ -1,3 +1,6 @@
+pertence(X, [X|_]).
+pertence(X, [_|T]):- pertence(X, T).
+
 total(_, [], 0).
 total(X, [(X,_)|T], C):- total(X,T,C1), C is C1 + 1.
 total(X, [(_,X)|T], C):- total(X,T,C1), C is C1 + 1.
