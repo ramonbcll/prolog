@@ -26,3 +26,6 @@ sumidouro(X, T):- contagem(X, T, F, S), F = 0, S > 0.
 fonte(X, T):- contagem(X, T, F, S), F > 0, S = 0.
 
 :-fonte(b,[(a,b),(b,c),(a,c)]).
+
+laco(V, [(V,V)|T]).
+laco(V, [_|T]):- temlaco(V, T).
