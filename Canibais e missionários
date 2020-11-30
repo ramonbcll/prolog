@@ -1,0 +1,68 @@
+info((M,C,Side),(M1,C,_)):-
+     ((Side = e, Mm is M-M1, Side1 = esquerda, Side2 = direita)
+     ; (Mm is M1-M, Side1 = direita, Side2 = esquerda)),
+     write(Mm), write(' missionarios atravessaram da '), write(Side1),
+     write(' para a '), write(Side2), nl.
+
+info((M,C,Side),(M,C1,_)):-
+     ((Side = e, Cc is C-C1, Side1 = esquerda, Side2 = direita)
+     ; (Cc is C1-C, Side1 = direita, Side2 = esquerda)),
+     write(Cc), write(' canibais atravessaram da '), write(Side1),
+     write(' para a '), write(Side2), nl.
+
+info((M,C,Side),(M1,C1,_)):-
+     ((Side = e, Mm is M-M1, Cc is C-C1, Side1 = esquerda, Side2 = direita)
+     ; (Mm is M1-M, Cc is C1-C, Side1 = direita, Side2 = esquerda)),
+     write(Mm), write(' missionarios e '), write(Cc),
+     write(' canibais da '), write('atravessaram da '), write(Side1),
+     write(' para a '), write(Side2), nl.
+
+escrever(9,[_|_]).
+escrever(C,[E1,E2|T]):- C1 is C+1,
+     info(E1,E2),
+     escrever(C1,[E2|T]).
+
+survive(0,_).
+survive(M,C):- M>=0, M>=C.
+
+seguro((M,C,_)):-
+     survive(M,C), 
+     M1 is 3-M, C1 is 3-C,
+     survive(M1,C1).
+
+passar((M,C,e),(M1,C,d)):-
+     (M>=1, M1 is M-1) ; (M>=2, M1 is M-2).
+passar((M,C,e),(M,C1,d)):-
+     (C>=1, C1 is C-1) ; (C>=2, C1 is C-2).
+passar((M,C,e),(M1,C1,d)):-
+     M>=1, C>=1, M1 is M-1, C1 is C-1.
+passar((M,C,d),(M1,C,e)):-
+     Md is 3-M,
+     ((Md>=1, M1 is M+1) ; (Md>=2, M1 is M+2)).
+passar((M,C,d),(M,C1,e)):-
+     Cd is 3-C,
+     ((Cd>=1, C1 is C+1) ; (Cd>=2, C1 is C+2)).
+passar((M,C,d),(M1,C1,e)):-
+     Md is 3-M, Cd is 3-C,
+     Md>=1, Cd>=1, M1 is M+1, C1 is C+1.
+
+atravessar(Ef,Ef,[Ef],_).
+atravessar(Ea,Ef,[Ea|R],Eants):-
+     passar(Ea,Eseg),
+     seguro(Eseg),
+     \+ member(Eseg,Eants),
+     atravessar(Eseg,Ef,R,[Eseg|Eants]).
+
+inicial((3,3,e)).
+final((0,0,d)).
+
+start:-
+     inicial(Ei), final(Ef), 
+     write('Inicio: 3 canibais e 3 missionários na esquerda.'), nl,
+     atravessar(Ei,Ef,L,[Ei]),
+     nl, escrever(0,L).
+
+?-start.
+
+%Problema 1, canibais e missionários.
+%Ramon Basto Callado Lima Lopes
